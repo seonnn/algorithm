@@ -1,3 +1,4 @@
+// 풀이 1
 var validPath = function (n, edges, source, destination) {
   let graph = Array.from({ length: n }, () => []);
   let visited = new Array(n).fill(false);
@@ -22,4 +23,32 @@ var validPath = function (n, edges, source, destination) {
   }
 
   return helper(source, destination);
+};
+
+// 풀이 2
+var validPath = function (n, edges, source, destination) {
+  let graph = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < edges.length; i++) {
+    graph[edges[i][0]].push(edges[i][1]);
+    graph[edges[i][1]].push(edges[i][0]);
+  }
+
+  let visited = new Array(n).fill(false);
+  let queue = [source];
+
+  while (queue.length > 0) {
+    const curNode = queue.shift();
+    visited[curNode] = true;
+    if (graph[curNode].includes(destination) || source === destination)
+      return true;
+
+    graph[curNode].forEach((el) => {
+      if (!visited[el]) {
+        queue.push(el);
+      }
+    });
+  }
+
+  return false;
 };
