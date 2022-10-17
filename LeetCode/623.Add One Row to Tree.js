@@ -27,3 +27,24 @@ var addOneRow = function (root, val, depth) {
 
   return root;
 };
+
+// dfs
+var addOneRow = function (root, val, depth) {
+  if (depth === 1) return new TreeNode(val, root, null);
+
+  function helper(node, dth) {
+    if (!node) return;
+
+    if (dth === depth - 1) {
+      node.left = new TreeNode(val, node.left, null);
+      node.right = new TreeNode(val, null, node.right);
+    }
+
+    if (node.left) helper(node.left, dth + 1);
+    if (node.right) helper(node.right, dth + 1);
+  }
+
+  helper(root, 1);
+
+  return root;
+};
