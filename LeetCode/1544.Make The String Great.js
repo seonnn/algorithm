@@ -1,0 +1,1 @@
+var makeGood = function (s) {};
