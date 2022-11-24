@@ -1,3 +1,4 @@
+// Map
 function solution(n, words) {
   let playerMap = new Map();
   let wordsMap = new Map();
@@ -22,3 +23,5 @@ function solution(n, words) {
 
   return [0, 0];
 }
+
+// Map + Set
