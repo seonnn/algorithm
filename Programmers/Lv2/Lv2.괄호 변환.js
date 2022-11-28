@@ -1,56 +1,42 @@
 function solution(p) {
-  var answer = "";
+  let left = 0;
+  let right = 0;
 
-  while (p.length) {
-    let idx = getIdx(p);
-    let u = p
-      .split("")
-      .slice(0, idx + 1)
-      .join("");
-    let v = p
-      .split("")
-      .slice(idx + 1)
-      .join("");
+  if (!p.length) return "";
 
-    if (isBalanced(u)) answer += u;
-    else {
-      answer += reverse(u);
+  for (i in p) {
+    if (p[i] === "(") left++;
+    else right++;
+
+    if (left === right) {
+      let u = p.slice(0, +i + 1);
+      let v = p.slice(+i + 1);
+
+      if (isBalanced(u)) {
+        return u + solution(v);
+      } else {
+        let answer = "(" + solution(v) + ")";
+
+        for (let j = 1; j < u.length - 1; j++) {
+          answer += p[j] === "(" ? ")" : "(";
+        }
+
+        return answer;
+      }
     }
-
-    p = v;
-  }
-
-  return answer;
-}
-
-function getIdx(str) {
-  let pair = new Map();
-
-  for (i in str) {
-    if (pair.get(str[i])) pair.set(str[i], pair.get(str[i]) + 1);
-    else pair.set(str[i], 1);
-
-    if (pair.get("(") === pair.get(")")) return +i;
   }
 }
 
 function isBalanced(str) {
-  let newStr = str.replace("()", "");
-
-  if (!newStr) return true;
-
-  if (newStr.includes("()")) return isBalanced(newStr);
-  else return false;
-}
-
-function reverse(str) {
-  let result = "";
+  let stack = [];
 
   for (i in str) {
-    if (i === 0) result += "(";
-    else if (i === str.length - 1) result += ")";
-    else result += str[i] === ")" ? "(" : ")";
+    if (str[i] === "(") stack.push(str[i]);
+    else {
+      if (!stack.length) return false;
+      stack.pop();
+    }
   }
 
-  return result;
+  return true;
 }
