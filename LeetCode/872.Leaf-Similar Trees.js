@@ -29,3 +29,34 @@ var leafSimilar = function (root1, root2) {
 
   return true;
 };
+
+// helper 함수 logic 분리
+var leafSimilar = function (root1, root2) {
+  let arr1 = helper(root1);
+  let arr2 = helper(root2);
+
+  if (arr1.length !== arr2.length) return false;
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+
+  return true;
+};
+
+function helper(node) {
+  if (!node) return;
+
+  let leaf = [];
+  let stack = [node];
+  while (stack.length) {
+    let curNode = stack.pop();
+
+    if (!curNode.left && !curNode.right) leaf.push(curNode.val);
+
+    if (curNode.left) stack.push(curNode.left);
+    if (curNode.right) stack.push(curNode.right);
+  }
+
+  return leaf;
+}
