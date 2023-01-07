@@ -1,4 +1,5 @@
 function solution(common) {
-  var answer = 0;
-  return answer;
+  return common[1] - common[0] === common[2] - common[1]
+    ? common.at(-1) + (common[1] - common[0])
+    : common.at(-1) * (common[1] / common[0]);
 }
