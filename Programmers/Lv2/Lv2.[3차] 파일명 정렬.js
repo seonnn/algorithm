@@ -1,48 +1,50 @@
-function solution(files) {
+function solution(m, musicinfos) {
   var answer = [];
+  musicinfos = musicinfos.map((el) => el.split(","));
+  m = replaceString(m);
 
-  let temp = [];
+  console.log(musicinfos);
 
-  for (let i = 0; i < files.length; i++) {
-    let cur = files[i];
-    let head = "";
-    for (let j = 0; j < cur.length; j++) {
-      if (+cur[j] >= 0 && cur[j] !== " ") {
-        temp.push([i, head, j]);
-        break;
+  for (let i = 0; i < musicinfos.length; i++) {
+    let temp = musicinfos[i];
+    let playTime = getPlayTime(temp[0], temp[1]);
+
+    temp[3] = replaceString(temp[3]);
+
+    if (temp[3].length > playTime) {
+      temp[3] = temp[3].slice(0, playTime);
+    } else {
+      let music = "";
+
+      while (music.length < playTime) {
+        music += temp[3];
       }
-      head += cur[j].toLowerCase();
+
+      temp[3] = music.slice(0, playTime);
+    }
+
+    if (temp[3].includes(m)) {
+      answer.push([playTime, temp[2]]);
     }
   }
 
-  for (let i = 0; i < files.length; i++) {
-    let cur = files[i];
-    let number = "";
-    for (let j = temp[i][2]; j < cur.length; j++) {
-      if (+cur[j] >= 0 && cur[j] !== " ") {
-        number += cur[j];
+  return answer.length ? answer.sort((a, b) => b[0] - a[0])[0][1] : "(None)";
+}
 
-        if (j === cur.length - 1) {
-          temp[i] = [...temp[i].slice(0, 2), +number];
-        }
-      } else {
-        temp[i] = [...temp[i].slice(0, 2), +number];
-        break;
-      }
-    }
-  }
+function replaceString(s) {
+  s = s
+    .replaceAll("C#", "c")
+    .replaceAll("D#", "d")
+    .replaceAll("F#", "f")
+    .replaceAll("G#", "g")
+    .replaceAll("A#", "a");
 
-  temp.sort((a, b) => {
-    if (a[1] > b[1]) return 1;
-    if (a[1] < b[1]) return -1;
-    if (a[1] === b[1]) {
-      return a[2] - b[2];
-    }
-  });
+  return s;
+}
 
-  for (let i = 0; i < temp.length; i++) {
-    answer.push(files[temp[i][0]]);
-  }
+function getPlayTime(start, end) {
+  start = start.split(":");
+  end = end.split(":");
 
-  return answer;
+  return (end[0] - start[0]) * 60 + (end[1] - start[1]);
 }
