@@ -3,6 +3,11 @@ function solution(dartResult) {
   let nums = [];
   let options = [];
   let num = "";
+  let operators = {
+    S: 1,
+    D: 2,
+    T: 3,
+  };
 
   for (let i = 0; i < dartResult.length; i++) {
     let reg = /[#*]/g;
@@ -16,10 +21,7 @@ function solution(dartResult) {
       num += dartResult[i];
       nums.push("");
     } else {
-      if (dartResult[i] === "S") nums.push(Number(num));
-      else if (dartResult[i] === "D") nums.push(Number(num) ** 2);
-      else if (dartResult[i] === "T") nums.push(Number(num) ** 3);
-
+      nums.push(Number(num) ** operators[dartResult[i]]);
       num = "";
     }
   }
