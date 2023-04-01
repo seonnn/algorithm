@@ -16,3 +16,14 @@ function solution(name, yearning, photo) {
 
   return answer;
 }
+
+// reduce 메서드 사용
+function solution(name, yearning, photo) {
+  let nameObj = {};
+
+  for (let i = 0; i < name.length; i++) {
+    nameObj[name[i]] = yearning[i];
+  }
+
+  return photo.map((p) => p.reduce((acc, cur) => (nameObj[cur] ? acc + nameObj[cur] : acc), 0));
+}
