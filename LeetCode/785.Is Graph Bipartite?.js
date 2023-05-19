@@ -1,34 +1,27 @@
 var isBipartite = function (graph) {
-  let isVisited = Array(graph.length).fill(false);
-  let vertexSide = Array(graph.length);
-  let setA = new Set();
-  let setB = new Set();
+  // vertex 방향 모두 -1로 초기화
+  let vertexSide = Array(graph.length).fill(-1);
+  // 첫번째 vertex 방향 0으로 설정
+  vertexSide[0] = 0;
 
-  let queue = [0];
-  let side = "A";
-  vertexSide[0] = "A";
-  setA.add(0);
+  let queue = [];
+
+  // edges를 포함하는 vertex만 queue에 push
+  for (let i = 0; i < graph.length; i++) {
+    if (graph[i].length) queue.push(i);
+  }
 
   while (queue.length) {
     let temp = queue.shift();
-    let v = graph[temp];
-    isVisited[temp] = true;
 
-    for (let i = 0; i < v.length; i++) {
-      if (!isVisited[v[i]]) queue.push(v[i]);
+    let edges = graph[temp];
 
-      if (side === "A") {
-        if (setA.has(v[i])) return false;
-        setB.add(v[i]);
-        vertexSide[v[i]] = "B";
-      } else {
-        if (setB.has(v[i])) return false;
-        setA.add(v[i]);
-        vertexSide[v[i]] = "A";
-      }
+    for (let i = 0; i < edges.length; i++) {
+      // 만약 edges[i]에 해당하는 정점의 방향이 설정되지 않은 경우 temp에 해당하는 정점의 반대 방향으로 방향을 설정
+      if (vertexSide[edges[i]] === -1) vertexSide[edges[i]] = 1 - vertexSide[temp];
+      // 만약 edges[i]에 해당하는 정점의 방향 temp에 해당하는 정점 방향과 일치한다면 이분그래프가 아니기 때문에 false return
+      else if (vertexSide[edges[i]] === vertexSide[temp]) return false;
     }
-
-    side = vertexSide[queue[0]] === "A" ? "A" : "B";
   }
 
   return true;
