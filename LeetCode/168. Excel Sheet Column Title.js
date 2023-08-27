@@ -31,6 +31,8 @@ var convertToTitle = function (columnNumber) {
   const arr = [];
 
   while (true) {
+    if (arr[arr.length - 1] === 26) columnNumber -= 1;
+
     if (columnNumber <= 26) {
       arr.push(columnNumber);
       break;
