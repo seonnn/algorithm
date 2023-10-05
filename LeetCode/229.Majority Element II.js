@@ -11,5 +11,5 @@ var majorityElement = function (nums) {
     if (cnt[nums[i]] > min) set.add(nums[i]);
   }
 
-  return [...set].sort((a, b) => a - b);
+  return [...set];
 };
