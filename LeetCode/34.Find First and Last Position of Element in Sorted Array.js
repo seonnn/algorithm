@@ -21,13 +21,29 @@ var searchRange = function (nums, target) {
 
   if (nums[mid] !== target && start > end) return [-1, -1];
 
-  start = mid - 1;
-  end = mid + 1;
+  start = mid <= 0 ? 0 : mid - 1;
+  end = mid >= nums.length - 1 ? nums.length - 1 : mid + 1;
 
   let checkStart = false;
   let checkEnd = false;
 
   while (checkStart === false || checkEnd === false) {
+    if (start === 0) {
+      if (nums[start] !== target) {
+        if (nums[start + 1] === target) start += 1;
+        else start = -1;
+      }
+      checkStart = true;
+    }
+
+    if (end === nums.length - 1 && nums[end] === target) {
+      if (nums[end] !== target) {
+        if (nums[end - 1] === target) end -= 1;
+        else end = -1;
+      }
+      checkEnd = true;
+    }
+
     if (nums[start] < target) {
       start++;
       checkStart = true;
@@ -40,6 +56,51 @@ var searchRange = function (nums, target) {
 
     if (!checkStart) start--;
     if (!checkEnd) end++;
+  }
+
+  if (start === -1 || end === -1) {
+    if (start > end) end = start;
+    else start = end;
+  }
+
+  return [start, end];
+};
+
+// 코드 개선
+var searchRange = function (nums, target) {
+  let start = -1,
+    end = -1;
+
+  let left = 0;
+  let right = nums.length - 1;
+  let mid;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (nums[mid] === target) {
+      start = mid;
+      right = mid - 1;
+    } else if (nums[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  left = 0;
+  right = nums.length - 1;
+  mid = null;
+
+  while (left <= right) {
+    mid = Math.floor((left + right) / 2);
+    if (nums[mid] === target) {
+      end = mid;
+      left = mid + 1;
+    } else if (nums[mid] < target) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
   }
 
   return [start, end];
