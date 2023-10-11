@@ -73,7 +73,6 @@ var searchRange = function (nums, target) {
 
   let left = 0;
   let right = nums.length - 1;
-  let mid;
 
   while (left <= right) {
     let mid = Math.floor((left + right) / 2);
@@ -89,10 +88,9 @@ var searchRange = function (nums, target) {
 
   left = 0;
   right = nums.length - 1;
-  mid = null;
 
   while (left <= right) {
-    mid = Math.floor((left + right) / 2);
+    let mid = Math.floor((left + right) / 2);
     if (nums[mid] === target) {
       end = mid;
       left = mid + 1;
