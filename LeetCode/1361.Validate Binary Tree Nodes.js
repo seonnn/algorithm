@@ -1,11 +1,22 @@
 var validateBinaryTreeNodes = function (n, leftChild, rightChild) {
   const visited = {};
-  const stack = [0];
+  let root = 0;
+
+  for (let i = 0; i < leftChild.length; i++) {
+    const left = leftChild[i];
+    const right = rightChild[i];
+
+    if (left === root || right === root) root = i;
+  }
+
+  const stack = [root];
+  let cnt = 0;
 
   while (stack.length > 0) {
     const node = stack.pop();
     if (visited[node]) return false;
     visited[node] = true;
+    cnt++;
 
     const left = leftChild[node];
     const right = rightChild[node];
@@ -18,5 +29,5 @@ var validateBinaryTreeNodes = function (n, leftChild, rightChild) {
     }
   }
 
-  return Object.keys(visited).length === n;
+  return cnt === n;
 };
