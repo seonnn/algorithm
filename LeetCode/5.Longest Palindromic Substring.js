@@ -39,26 +39,29 @@ var longestPalindrome = function (s) {
   return s.slice(start, end + 1);
 };
 
-// 재귀
-var kthGrammar = function (n, k) {
-  if (n === 1) {
-    return 0;
+// 풀이 리팩토링
+var longestPalindrome = function (s) {
+  if (s.length < 2) return s;
+
+  let res = "";
+
+  for (let i = 0; i < s.length; i++) {
+    const odd = returnPalindrome(s, i, i);
+    const even = returnPalindrome(s, i, i + 1);
+
+    const cur = odd.length > even.length ? odd : even;
+
+    res = cur.length > res.length ? cur : res;
   }
 
-  if (n === 2) {
-    if (k === 1) {
-      return 0;
-    }
-
-    if (k === 2) {
-      return 1;
-    }
-  }
-
-  const index = k % 2;
-  const prevK = Math.ceil(k / 2);
-
-  const prevBit = kthGrammar(n - 1, prevK);
-
-  return Math.abs(prevBit - index ? 0 : 1);
+  return res;
 };
+
+function returnPalindrome(s, start, end) {
+  while (start >= 0 && end < s.length && s[start] === s[end]) {
+    start--;
+    end++;
+  }
+
+  return s.slice(start + 1, end);
+}
