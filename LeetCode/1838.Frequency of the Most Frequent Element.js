@@ -1,3 +1,4 @@
+// sliding window
 var maxFrequency = function (nums, k) {
   nums.sort((a, b) => a - b);
 
