@@ -19,5 +19,11 @@ var onesMinusZeros = function (grid) {
     }
   }
 
-  console.log(row, col);
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[0].length; j++) {
+      res[i][j] = row[i][1] + col[j][1] - row[i][0] - col[j][0];
+    }
+  }
+
+  return res;
 };
