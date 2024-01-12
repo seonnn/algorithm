@@ -20,3 +20,17 @@ var halvesAreAlike = function (s) {
     Object.values(vowelsB).reduce((acc, cur) => acc + cur, 0)
   );
 };
+
+// 풀이 추가
+var halvesAreAlike = function (s) {
+  let set = new Set(["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]);
+  let cnt1 = 0,
+    cnt2 = 0;
+
+  for (let i = 0; i < s.length / 2; i++) {
+    if (set.has(s[i])) cnt1++;
+    if (set.has(s[s.length / 2 + i])) cnt2++;
+  }
+
+  return cnt1 === cnt2;
+};
