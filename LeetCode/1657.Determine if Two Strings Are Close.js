@@ -32,3 +32,30 @@ var closeStrings = function (word1, word2) {
 
   return true;
 };
+
+// 리팩토링
+var closeStrings = function (word1, word2) {
+  if (word1.length !== word2.length) return false;
+
+  let obj = {};
+  let obj2 = {};
+
+  for (let i = 0; i < word1.length; i++) {
+    if (!obj[word1[i]]) obj[word1[i]] = 0;
+    if (!obj2[word2[i]]) obj2[word2[i]] = 0;
+
+    obj[word1[i]]++;
+    obj2[word2[i]]++;
+  }
+
+  const keys = Object.keys(obj);
+  const vals = Object.values(obj).sort((a, b) => a - b);
+  const vals2 = Object.values(obj2).sort((a, b) => a - b);
+
+  for (let i = 0; i < keys.length; i++) {
+    if (!obj2[keys[i]]) return false;
+    if (vals[i] !== vals2[i]) return false;
+  }
+
+  return true;
+};
