@@ -1,3 +1,4 @@
+// DFS
 var maxDepth = function (root) {
   let max = 0;
 
@@ -12,6 +13,30 @@ var maxDepth = function (root) {
   }
 
   helper(root, 0);
+
+  return max;
+};
+
+// BFS
+var maxDepth = function (root) {
+  if (!root) return root;
+
+  let queue = [[root, 1]];
+  let max = 1;
+
+  while (queue.length) {
+    let [node, depth] = queue.shift();
+
+    if (node.left) {
+      queue.push([node.left, depth + 1]);
+      max = Math.max(max, depth + 1);
+    }
+
+    if (node.right) {
+      queue.push([node.right, depth + 1]);
+      max = Math.max(max, depth + 1);
+    }
+  }
 
   return max;
 };
