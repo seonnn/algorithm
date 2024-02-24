@@ -16,3 +16,17 @@ var frequencySort = function (s) {
 
   return result;
 };
+
+// 풀이 리팩토링(고차함수 사용)
+var frequencySort = function (s) {
+  const map = new Map();
+
+  for (let i = 0; i < s.length; i++) {
+    if (!map.has(s[i])) map.set(s[i], 0);
+    map.set(s[i], map.get(s[i]) + 1);
+  }
+
+  const arr = [...map].sort((a, b) => b[1] - a[1] || (b[1] === a[1] && a[0] - b[0]));
+
+  return arr.reduce((acc, cur) => acc + cur[0].repeat(cur[1]), "");
+};
